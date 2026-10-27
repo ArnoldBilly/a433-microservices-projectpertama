@@ -1,0 +1,27 @@
+# Menggunakan Docker Compose versi 3
+version: '3'
+
+# Mendefinisikan service/container yang akan dijalankan
+services:
+  # Service pertama: aplikasi utama
+  item-app:
+    # Menggunakan image dari Docker Hub
+    image: avtario19/dicoding-itemapp:v1
+    # Mapping port 80 di host ke port 8080 di container
+    ports:
+      - "80:8080"
+    # Memastikan item-app berjalan setelah item-db diluncurkan
+    depends_on:
+      - item-db
+
+  # Service kedua: database MongoDB
+  item-db:
+    # Menggunakan image MongoDB versi 3 dari Docker Hub
+    image: mongo:3
+    # Mounting volume agar data database tetap tersimpan
+    volumes:
+      - app-db:/data/db
+
+# Mendefinisikan named volume untuk menyimpan data database
+volumes:
+  app-db:
